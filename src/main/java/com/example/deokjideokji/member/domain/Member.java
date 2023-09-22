@@ -2,8 +2,6 @@ package com.example.deokjideokji.member.domain;
 
 
 import com.example.deokjideokji.common.domain.BaseEntity;
-import com.example.deokjideokji.member.domain.vo.Email;
-import com.example.deokjideokji.member.domain.vo.Name;
 import com.example.deokjideokji.member.dto.response.MemberResponse;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,28 +20,26 @@ public class Member extends BaseEntity {
     private Long id;
 
     @Column
-    @Embedded
-    private Email email;
+    private String email;
 
     @Column
-    @Embedded
-    private Name name;
+    private String name;
 
     @Column
     private Long birthday;
 
     @Builder
     public Member(String email, String name, Long birthday){
-        this.email = new Email(email);
-        this.name = new Name(name);
+        this.email = email;
+        this.name = name;
         this.birthday = birthday;
     }
 
     public MemberResponse toResponseDto(){
         return MemberResponse.builder()
                 .id(id)
-                .email(email.getEmail())
-                .name(name.getName())
+                .email(email)
+                .name(name)
                 .birthday(birthday)
                 .build();
     }

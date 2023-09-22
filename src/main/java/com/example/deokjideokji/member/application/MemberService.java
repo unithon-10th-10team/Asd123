@@ -3,7 +3,6 @@ package com.example.deokjideokji.member.application;
 import com.example.deokjideokji.error.dto.ErrorMessage;
 import com.example.deokjideokji.error.exception.member.AlreadyExistMemberEmailException;
 import com.example.deokjideokji.error.exception.member.InvalidLoginInfoException;
-import com.example.deokjideokji.member.domain.vo.Email;
 import com.example.deokjideokji.member.domain.Member;
 import com.example.deokjideokji.member.dto.request.CreateMemberRequest;
 import com.example.deokjideokji.member.dto.response.MemberResponse;
@@ -51,7 +50,7 @@ public class MemberService {
      */
     @Transactional(readOnly = true)
     public void duplicateValidationMemberEmail(String email){
-        memberRepository.findByEmail(new Email(email))
+        memberRepository.findByEmail(email)
                 .ifPresent(member -> {
                     throw new AlreadyExistMemberEmailException(ErrorMessage.ALREADY_EXIST_MEMBER_EMAIL_EXCEPTION, "이미 존재하는 이메일 정보입니다");
                 });
