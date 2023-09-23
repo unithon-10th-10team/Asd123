@@ -10,11 +10,11 @@ public class MemberResponse {
     private Long id;
     private String email;
     private String name;
-    private Long birthday;
+    private String birthday;
 
     @Builder
     public MemberResponse(Long id, String email,
-                           String name, Long birthday){
+                           String name, String birthday){
         this.id = id;
         this.email = email;
         this.name = name;
