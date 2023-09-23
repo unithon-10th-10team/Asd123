@@ -26,11 +26,10 @@ public class AuthController {
      * @todo 카카오 토큰을 통한 로그인 구현 예정
      * @return     * userDetail : 조회한 유저 정보를 담은 jwt token
      */
-    @GetMapping("/kakao")
+    @PostMapping("/kakao")
     public ResponseEntity<?> login() throws ParseException {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
-
         var userDetail = authService.userSignUp(request);
 
         return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS_LOAD_MEMBER_INFORMATION, userDetail);
