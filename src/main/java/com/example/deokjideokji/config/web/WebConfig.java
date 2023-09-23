@@ -8,32 +8,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
+@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
     private final AuthArgumentResolver authArgumentResolver;
 
-    @Bean
-    @ConditionalOnMissingBean(UrlBasedCorsConfigurationSource.class)
-    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
-        var corsConfig = new CorsConfiguration();
-
-        corsConfig.setAllowCredentials(true);
-        corsConfig.addAllowedOrigin("*");
-        corsConfig.addAllowedOriginPattern("*");
-        corsConfig.addAllowedHeader("*");
-        corsConfig.addAllowedMethod("*");
-
-        corsConfig.setAllowCredentials(true);
-        corsConfig.setMaxAge(3600L);
-
-        var corsConfigSource = new UrlBasedCorsConfigurationSource();
-        corsConfigSource.registerCorsConfiguration("/**", corsConfig);
-        return corsConfigSource;
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowCredentials(false)
+                .maxAge(3000);
     }
 
     @Override
