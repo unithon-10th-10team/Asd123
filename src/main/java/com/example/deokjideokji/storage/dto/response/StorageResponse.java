@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StorageResponse {
     private Long id;
-    private Long userId;
+    private String userId;
     private Long restaurantId;
     private Integer temp;
 
     @Builder
-    public StorageResponse(Long id, Long userId,
+    public StorageResponse(Long id, String userId,
                            Long restaurantId, Integer temp) {
         this.id = id;
         this.userId = userId;
