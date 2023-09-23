@@ -2,38 +2,26 @@ package com.example.deokjideokji.config.web;
 
 import com.example.deokjideokji.auth.presentation.AuthArgumentResolver;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
     private final AuthArgumentResolver authArgumentResolver;
-
-    @Bean
-    @ConditionalOnMissingBean(UrlBasedCorsConfigurationSource.class)
-    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
-        var corsConfig = new CorsConfiguration();
-
-        corsConfig.addAllowedOriginPattern(CorsConfiguration.ALL);
-        corsConfig.addAllowedHeader(CorsConfiguration.ALL);
-        corsConfig.addAllowedMethod(CorsConfiguration.ALL);
-
-        corsConfig.setAllowCredentials(true);
-        corsConfig.setMaxAge(3600L);
-
-        var corsConfigSource = new UrlBasedCorsConfigurationSource();
-        corsConfigSource.registerCorsConfiguration("/**", corsConfig);
-        return corsConfigSource;
+    private final long MAX_AGE_SECS = 3600;
+    @Override
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(MAX_AGE_SECS);
     }
 
     @Override
