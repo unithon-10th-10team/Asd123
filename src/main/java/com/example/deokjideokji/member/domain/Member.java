@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.JSONObject;
 
 import javax.persistence.*;
 
@@ -26,10 +27,10 @@ public class Member extends BaseEntity {
     private String name;
 
     @Column
-    private Long birthday;
+    private String birthday;
 
     @Builder
-    public Member(String email, String name, Long birthday){
+    public Member(String email, String name, String birthday){
         this.email = email;
         this.name = name;
         this.birthday = birthday;

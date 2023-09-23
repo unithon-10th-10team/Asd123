@@ -47,20 +47,16 @@ logging:
   level:
     org.hibernate.SQL: debug
 
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id: a6pkRxczYdRCPWaK9RWkenoUShApnFYn
-            redirect-uri: "http://localhost:8080/api/v1/ouath2/kakao/{registrationId}"
-            client-authentication-method: POST
-            authorization-grant-type: authorization_code
-            scope: profile_nickname, account_email, gender, age_range
-            client-name: Kakao
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id
+kakao:
+  client:
+    registration:
+        client-id: 4fc99ed678f3d2fa5db774b0387bc601
+        redirect-uri: http://localhost:8080/api/v1/oauth2/kakao
+        client-authentication-method: POST
+        authorization-grant-type: authorization_code
+        scope: profile_nickname, account_email, gender, birthday
+    provider:
+        authorization-uri: https://kauth.kakao.com/oauth/authorize
+        token-uri: https://kauth.kakao.com/oauth/token
+        user-info-uri: https://kapi.kakao.com/v2/user/me
+        user-name-attribute: id

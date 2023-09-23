@@ -2,17 +2,37 @@ package com.example.deokjideokji.auth.application;
 
 
 import com.example.deokjideokji.auth.domain.UserDetail;
+import com.example.deokjideokji.auth.domain.vo.RoleType;
 import com.example.deokjideokji.auth.token.TokenProvider;
 import com.example.deokjideokji.error.dto.ErrorMessage;
 import com.example.deokjideokji.error.exception.auth.NotExistMemberException;
+import com.example.deokjideokji.member.domain.Member;
 import com.example.deokjideokji.member.infrastructure.MemberRepository;
+import com.nimbusds.jose.shaded.json.JSONObject;
+import com.nimbusds.jose.shaded.json.parser.JSONParser;
+import com.nimbusds.jose.shaded.json.parser.ParseException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+    @Value("${kakao.client.registration.client-id}")
+    private String kakaoApiKey;
+
+    @Value("${kakao.client.provider.user-info-uri}")
+    private String kakaoUserUri;
+
     private final TokenProvider tokenProvider;
     private final MemberRepository memberRepository;
 
@@ -31,22 +51,42 @@ public class AuthService {
 
     /**
      * @brief      * 유저 로그인
-     * @param      * JoinRequest : 로그인을 위한 카카오 토큰
      * @todo 카카오 토큰을 통한 로그인 구현 예정
+     * @param      * code : kokao access toekn
      * @return     * jwt token : 조회한 유저 정보 id, role 이용한 jwt token
      */
-//    @Transactional(readOnly = true)
-//    public String userLogin(JoinRequest joinRequest){
-//        var member = memberRepository.findByEmail(new Email(joinRequest.getEmail()))
-//                .orElseThrow(
-//                        () -> new NotExistMemberException(ErrorMessage.NOT_EXIST_MEMBER_EXCEPTION, "해당 유저 정보가 존재하지 않습니다.")
-//                );
-//
-//        if(!passwordEncoder.matches(joinRequest.getPassword(), member.getPassword())) {
-//            throw new InvalidPasswordMatchException(ErrorMessage.INVALID_PASSWORD_MATCH_EXCEPTION, "잘못된 비밀번호 입니다");
-//        }
-//
-//        return tokenProvider.generateJwtToken(member.getId(), member.getRoleType().getRole());
-//    }
+    @Transactional
+    public String userSignUp(String token) throws ParseException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + token);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        RestTemplate rt = new RestTemplate();
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = rt.exchange(
+                kakaoUserUri,
+                HttpMethod.POST,
+                httpEntity,
+                String.class
+        );
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObj    = (JSONObject) jsonParser.parse(response.getBody());
+        String account = jsonObj.get("email").toString();
+        String nickname = jsonObj.get("nickname").toString();
+        String birthday = jsonObj.get("birthday").toString();
+
+        return loadMember(account, nickname, birthday);
+    }
+
+    @Transactional
+    public String loadMember(String account, String nickname, String birthday) {
+        var member = new Member(account, nickname, birthday);
+        var memberId = memberRepository.findByEmail(account).orElse(
+                memberRepository.save(member)
+        ).getId();
+
+        return tokenProvider.generateJwtToken(memberId, "ROLE_USER");
+    }
 
 }
