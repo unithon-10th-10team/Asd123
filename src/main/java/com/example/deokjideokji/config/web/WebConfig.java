@@ -16,18 +16,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
     private final AuthArgumentResolver authArgumentResolver;
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("*")
-                .allowCredentials(false)
-                .maxAge(3000);
-    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
