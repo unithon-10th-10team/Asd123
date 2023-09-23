@@ -1,15 +1,13 @@
 package com.example.deokjideokji.member.presentaion;
 
+import com.example.deokjideokji.auth.domain.UserDetail;
+import com.example.deokjideokji.auth.infrastructure.annotation.AuthMember;
 import com.example.deokjideokji.common.response.dto.ResponseDto;
 import com.example.deokjideokji.common.response.dto.ResponseMessage;
 import com.example.deokjideokji.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,10 +20,8 @@ public class MemberController {
      * @return  List<MemberResponse> : 회원 모든 회원 정보 List
      */
     @GetMapping
-    public ResponseEntity<?> searchAllMember() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-                .getRequestAttributes()).getRequest();
-        var response = memberService.searchAllMember(request);
+    public ResponseEntity<?> searchAllMember(@AuthMember UserDetail detail) {
+        var response = memberService.searchAllMember(detail);
 
         return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS_SEARCH_ALL_MEMBER, response);
     }
