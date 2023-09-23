@@ -22,9 +22,11 @@ public class WebConfig implements WebMvcConfigurer {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         var corsConfig = new CorsConfiguration();
 
-        corsConfig.addAllowedOriginPattern(CorsConfiguration.ALL);
-        corsConfig.addAllowedHeader(CorsConfiguration.ALL);
-        corsConfig.addAllowedMethod(CorsConfiguration.ALL);
+        corsConfig.setAllowCredentials(true);
+        corsConfig.addAllowedOrigin("*");
+        corsConfig.addAllowedOriginPattern("*");
+        corsConfig.addAllowedHeader("*");
+        corsConfig.addAllowedMethod("*");
 
         corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(3600L);
