@@ -18,6 +18,9 @@ public enum ResponseMessage {
 
     SUCCESS_GET_MAP_LOCATION(HttpStatus.OK, "지도 위치 정보 가져오기 성공"),
 
+
+    // 식당 성공 message
+    SUCCESS_GET_ALL_RESTAURANT(HttpStatus.OK, "모든 식당 조회 성공"),
     ;
 
 

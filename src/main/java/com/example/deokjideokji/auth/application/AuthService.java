@@ -4,6 +4,7 @@ package com.example.deokjideokji.auth.application;
 import com.example.deokjideokji.auth.domain.UserDetail;
 import com.example.deokjideokji.auth.domain.vo.RoleType;
 import com.example.deokjideokji.auth.token.TokenProvider;
+import com.example.deokjideokji.common.header.HeaderUtil;
 import com.example.deokjideokji.error.dto.ErrorMessage;
 import com.example.deokjideokji.error.exception.auth.NotExistMemberException;
 import com.example.deokjideokji.member.domain.Member;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Service
@@ -56,7 +59,9 @@ public class AuthService {
      * @return     * jwt token : 조회한 유저 정보 id, role 이용한 jwt token
      */
     @Transactional
-    public String userSignUp(String token) throws ParseException {
+    public String userSignUp(HttpServletRequest request) throws ParseException {
+        var token = HeaderUtil.getAccessToken(request);
+
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token);
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");

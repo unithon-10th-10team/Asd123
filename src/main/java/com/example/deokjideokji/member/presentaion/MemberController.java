@@ -6,6 +6,10 @@ import com.example.deokjideokji.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,12 +18,14 @@ public class MemberController {
     private final MemberService memberService;
 
     /**
-     * @brief   모든 유저 조회
+     * @brief  유저 조회
      * @return  List<MemberResponse> : 회원 모든 회원 정보 List
      */
     @GetMapping
     public ResponseEntity<?> searchAllMember() {
-        var response = memberService.searchAllMember();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+                .getRequestAttributes()).getRequest();
+        var response = memberService.searchAllMember(request);
 
         return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS_SEARCH_ALL_MEMBER, response);
     }
