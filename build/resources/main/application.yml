@@ -66,3 +66,17 @@ cors:
   allowed-methods: GET,POST,PATCH,PUT,DELETE,OPTIONS
   allowed-headers: '*'
   max-age: 3600
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAX2Q5XFPM55GHUXNM
+      secretKey: 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
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: se-community-bucket

@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class UserDetail {
-    private Long id;
+    private String id;
     private String userEmail;
     private String name;
 

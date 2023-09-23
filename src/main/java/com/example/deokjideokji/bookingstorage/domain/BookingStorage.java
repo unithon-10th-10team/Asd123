@@ -1,6 +1,6 @@
-package com.example.deokjideokji.storage.domain;
+package com.example.deokjideokji.bookingstorage.domain;
 
-import com.example.deokjideokji.storage.dto.response.StorageResponse;
+import com.example.deokjideokji.bookingstorage.dto.response.BookingStorageResponse;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,35 +11,30 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Storage {
+public class BookingStorage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private Long userId;
+    private String userId;
 
     @Column
     private Long restaurantId;
 
-    @Column
-    private Integer temp;
-
     @Builder
-    public Storage(Long id, Long userId,
-                   Long restaurantId, Integer temp) {
+    public BookingStorage(Long id, String userId, Long restaurantId) {
         this.id = id;
         this.userId = userId;
         this.restaurantId = restaurantId;
-        this.temp = temp;
     }
 
-    public StorageResponse toResponseDto() {
-        return StorageResponse.builder()
+    public BookingStorageResponse toResponseDto() {
+        return BookingStorageResponse.builder()
                 .id(id)
                 .userId(userId)
                 .restaurantId(restaurantId)
-                .temp(temp)
                 .build();
     }
+
 }

@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class MemberResponse {
-    private Long id;
+    private String id;
     private String email;
     private String name;
     private String birthday;
 
     @Builder
-    public MemberResponse(Long id, String email,
+    public MemberResponse(String id, String email,
                            String name, String birthday){
         this.id = id;
         this.email = email;

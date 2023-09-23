@@ -3,8 +3,6 @@ package com.example.deokjideokji.auth.infrastructure;
 import com.example.deokjideokji.auth.domain.Authentication;
 import com.example.deokjideokji.auth.domain.UserDetail;
 import com.example.deokjideokji.auth.domain.vo.RoleType;
-import com.example.deokjideokji.error.dto.ErrorMessage;
-import com.example.deokjideokji.error.exception.auth.NotExistJwtToken;
 import org.springframework.stereotype.Component;
 
 @Component

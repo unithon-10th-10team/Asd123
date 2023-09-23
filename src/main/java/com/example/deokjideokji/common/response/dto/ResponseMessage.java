@@ -19,8 +19,13 @@ public enum ResponseMessage {
     SUCCESS_GET_MAP_LOCATION(HttpStatus.OK, "지도 위치 정보 가져오기 성공"),
 
 
-    // 식당 성공 message
-    SUCCESS_GET_ALL_RESTAURANT(HttpStatus.OK, "모든 식당 조회 성공"),
+
+    // 예약 보관함 성공 message
+    SUCCESS_GET_ALL_BOOKING_STORAGE(HttpStatus.OK, "모든 에약 보관항 조회 성공"),
+    SUCCESS_CREATE_BOOKING_STORAGE(HttpStatus.CREATED, "예약 보관함 생성 성공"),
+
+    SUCCESS_GET_ALL_STORAGE(HttpStatus.OK, "모든 기록 보관함 조회 성공"),
+    SUCCESS_CREATE_STORAGE(HttpStatus.CREATED, "예약 보관함 생성 성공"),
     ;
 
 

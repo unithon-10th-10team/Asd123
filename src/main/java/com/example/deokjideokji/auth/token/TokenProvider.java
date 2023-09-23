@@ -78,14 +78,14 @@ public class TokenProvider {
      *             * Subject : userId
      * @return     * Long userId
      */
-    public Long getUserToken(String token) {
+    public String getUserToken(String token) {
         var data = Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
 
-        return Long.parseLong(data);
+        return data;
     }
 
     /**
