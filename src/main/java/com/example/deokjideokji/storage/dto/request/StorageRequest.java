@@ -13,7 +13,7 @@ public class StorageRequest {
     private Long id;
 
     @NotNull
-    private Long userId;
+    private String userId;
 
     @NotNull
     private Long restaurantId;
@@ -31,5 +31,4 @@ public class StorageRequest {
                 .temp(temp)
                 .build();
     }
-
 }

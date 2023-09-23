@@ -17,7 +17,7 @@ public class Storage {
     private Long id;
 
     @Column
-    private Long userId;
+    private String userId;
 
     @Column
     private Long restaurantId;
@@ -26,7 +26,7 @@ public class Storage {
     private Integer temp;
 
     @Builder
-    public Storage(Long id, Long userId,
+    public Storage(Long id, String userId,
                    Long restaurantId, Integer temp) {
         this.id = id;
         this.userId = userId;
